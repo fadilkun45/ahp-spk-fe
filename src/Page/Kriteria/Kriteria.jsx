@@ -83,8 +83,10 @@ const Kriteria = ({ setLoading }) => {
 
   useEffect(() => {
     if (isLoading || loadPerbandingan) {
-      setLoading(true);
+      // setLoading(true);
+      console.log("load")
     } else {
+      // console.log("unload")
       setLoading(false);
     }
   }, [isLoading, loadPerbandingan]);
@@ -99,7 +101,7 @@ const Kriteria = ({ setLoading }) => {
     setDetailData(row);
     if (row.jenis === "sub-kriteria") {
       // setModalEdit(true)
-      setLoading(true)
+      // setLoading(true)
       // refetch().then((res) => {
       //   setLoading(false)
       // })
@@ -189,6 +191,7 @@ const Kriteria = ({ setLoading }) => {
 
       {modalEditIntesitas && (
         <ModalEditIntesitas
+          level={level}
           setIsloading={setLoading}
           show={modalEditIntesitas}
           closeModal={() => setModalEditIntesitas(false)}

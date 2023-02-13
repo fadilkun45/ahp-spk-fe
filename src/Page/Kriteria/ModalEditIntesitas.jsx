@@ -35,7 +35,8 @@ const ModalEditIntesitas = ({
   obj,
   submit,
   setIsloading,
-  perbandingan
+  perbandingan,
+  level
 }) => {
   const [modalNew, setModalNew] = useState(false);
   const [DetailData, setDetailData] = useState(null);
@@ -183,7 +184,7 @@ const ModalEditIntesitas = ({
           <Stack sx={{ overflowY: "auto", height: "60vh" }}>
             <Stack spacing={2}>
               <Typography level="3" textAlign="center">
-                level 2 kemampuan {obj?.namaKriteria}
+                level {level} {obj?.namaKriteria}
               </Typography>
               <TableContainer component={Paper}>
                 <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -225,7 +226,7 @@ const ModalEditIntesitas = ({
 
             <Stack spacing={2} sx={{ marginTop: "60px" }}>
               <Typography level="3" textAlign="center">
-                Perbandingan Berpasangan Level 2 {obj?.namaKriteria}
+                Perbandingan Berpasangan Level {level} {obj?.namaKriteria}
               </Typography>
               <TableContainer component={Paper}>
                 <Table sx={{ minWidth: 650 }} aria-label="simple table">

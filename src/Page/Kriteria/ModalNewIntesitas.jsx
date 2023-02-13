@@ -5,7 +5,7 @@ import { ModalDialog } from "@mui/joy";
 import {useState} from 'react'
 import { Autocomplete, Button, Stack, TextField } from "@mui/material";
 
-const ModalNewIntesitas = ({ show, closeModal, obj, submit }) => {
+const ModalNewIntesitas = ({ show, closeModal, obj, submit,  }) => {
 
   const [formData, setFormData] = useState({
     namaIntensitas: "",
