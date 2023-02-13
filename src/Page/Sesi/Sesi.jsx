@@ -22,18 +22,16 @@ import { useQuery } from "@tanstack/react-query";
 import {
   DeleteKriteria,
   getDataKriteria,
-  getDataPerbandingan,
   postKriteria,
-  postPerbandingan,
 } from "../../Redux/Service/MasterService";
 import { toast } from "react-toastify";
-import ModalEditIntesitas from "./ModalEditIntesitas";
+import ModalView from "./ModalView";
 
-const Kriteria = ({ setLoading }) => {
+const Sesi = ({ setLoading }) => {
   const [modalNew, setModalNew] = useState(false);
+  const [modalView, setModalView] = useState(false);
   const [DetailData, setDetailData] = useState(null);
   const [modalEdit, setModalEdit] = useState(false);
-  const [modalEditIntesitas, setModalEditIntesitas] = useState(false);
   const [modalDelete, setModalDelete] = useState(false);
   const [detailId, setDetailId] = useState(null)
   const [level, setLevel] = useState(1)
@@ -47,47 +45,18 @@ const Kriteria = ({ setLoading }) => {
     { refetchIntervalInBackground: false, retry: false }
   );
 
-  const {
-    data: perbandingan,
-    isLoading: loadPerbandingan,
-    refetch: refetchPerbandingan,
-  } = useQuery(
-    ["dropdownPerbandingan"],
-    () => {
-      return getDataPerbandingan();
-    },
-    { refetchIntervalInBackground: false,retry: false  }
-  );
 
-  const [dataDrop, setDataDrop] = useState([]);
-
-  const cels = ["Nama", "Bobot Prioritas", "memiliki", "Action"];
-
-  const celsBanding = [
-    "Nama",
-    "Bobot Prioritas",
-    "Nama Kriteria yang dibandingkan",
-  ];
+  const cels = ["Nama Sesi", "Jumlah Kandidat", "Jumlah Kandidat yang telah dinilai", "Nilai", "Action"];
 
   useEffect(() => {
-    let data = [];
-
-    perbandingan?.dropdown?.map((v) => {
-      data.push({ id: v.id, label: v.keterangan });
-    });
-
-    setDataDrop(data);
-  }, [perbandingan]);
-
-  useEffect(() => {
-    if (isLoading || loadPerbandingan) {
+    if (isLoading ) {
       // setLoading(true);
       console.log("load")
     } else {
       // console.log("unload")
       setLoading(false);
     }
-  }, [isLoading, loadPerbandingan]);
+  }, [isLoading,]);
 
   const openModalNew = (row) => {
     setDetailData(row);
@@ -101,7 +70,7 @@ const Kriteria = ({ setLoading }) => {
       setDetailId(row.idKriteria)
       setLevel(level + 1)
     } else {
-      setModalEditIntesitas(true);
+      setModalEdit(true);
     }
   };
 
@@ -110,40 +79,26 @@ const Kriteria = ({ setLoading }) => {
     setModalDelete(true);
   };
 
-  const handleNewKriteria = (row) => {
+  
+  const openModalView = (row) => {
+    setDetailData(row);
+    setModalView(true);
+  };
+
+
+  const handleNewSesi = (row) => {
     setLoading(true);
     postKriteria({...row, idKriteriaInduk: !detailId ? null : detailId })
       .then((res) => {
         refetch();
         setModalNew(false);
         setLoading(false);
-        toast.success("buat Kriteria berhasil");
+        toast.success("buat Sesi berhasil");
       })
       .catch((err) => {
         setLoading(false);
         setModalNew(false);
-        toast.error(`gagal buat Kriteria ${err}`);
-      });
-  };
-
-  const handlePilihPerbandingan = (value, row) => {
-    console.log(value);
-    setLoading(true);
-    postPerbandingan({
-      idKriteriaPertama: row?.idkriteriapertama,
-      idKriteriaKedua: row?.idkriteriakedua,
-      idPenilaian: value,
-    })
-      .then((res) => {
-        refetch();
-        setModalNew(false);
-        setLoading(false);
-        toast.success("Perbandingan Kriteria berhasil");
-      })
-      .catch((err) => {
-        setLoading(false);
-        setModalNew(false);
-        toast.error(`gagal Perbandingan Kriteria ${err}`);
+        toast.error(`gagal buat Sesi ${err}`);
       });
   };
 
@@ -163,40 +118,33 @@ const Kriteria = ({ setLoading }) => {
       });
   };
 
-  const handleKembaliKelevel1 = () => {
-    // setLoading(true)
-    setDetailId('')
-    setLevel(1)
-    setDetailData(null)
-  }
 
  
   return (
     <>
-      {modalEdit && (
-        <ModalEdit
-          show={modalEdit}
-          closeModal={() => setModalEdit(false)}
+      {modalView && (
+        <ModalView
+          show={modalView}
+          closeModal={() => setModalView(false)}
           obj={DetailData}
           setIsloading={setLoading}
         />
       )}
 
-      {modalEditIntesitas && (
-        <ModalEditIntesitas
+      {modalEdit && (
+        <ModalEdit
           level={level}
           setIsloading={setLoading}
-          show={modalEditIntesitas}
-          closeModal={() => setModalEditIntesitas(false)}
+          show={modalEdit}
+          closeModal={() => setModalEdit(false)}
           obj={DetailData}
-          perbandingan={perbandingan}
           setLoading={setLoading}
         />
       )}
 
       {modalNew && (
         <ModalNew
-          submit={handleNewKriteria}
+          submit={handleNewSesi}
           show={modalNew}
           closeModal={() => setModalNew(false)}
           obj={DetailData}
@@ -217,22 +165,13 @@ const Kriteria = ({ setLoading }) => {
         variant="contained"
         onClick={() => openModalNew()}
       >
-        Tambah Kriteria
+        Tambah Sesi
       </Button>
-      {
-        level !== 1 ? <Button
-          sx={{ marginBottom: "20px", marginLeft: "15px" }}
-          variant="contained"
-          onClick={() => handleKembaliKelevel1()}
-        >
-          Kembali Ke Awal
-        </Button> : null
-      }
 
       <Stack spacing={2}>
         <Typography level="3" textAlign="center">
-          Level {level} Hirarki AHP Pemilihan Programmer
-        </Typography>
+        Daftar Sesi-Sesi Perekrutan Kandidat Programmer
+         </Typography>
         <TableContainer component={Paper}>
           <Table sx={{ minWidth: 650 }} aria-label="simple table">
             <TableHead>
@@ -251,9 +190,10 @@ const Kriteria = ({ setLoading }) => {
                     background: row?.terdapatError ? "#ef5350" : "",
                   }}
                 >
-                  <TableCell align="right">{row?.namaKriteria}</TableCell>
-                  <TableCell align="right">{row?.bobot}</TableCell>
-                  <TableCell align="right">{row?.jenis}</TableCell>
+                  <TableCell align="right">{row?.nama}</TableCell>
+                  <TableCell align="right">{row?.jumlah}</TableCell>
+                  <TableCell align="right">{row?.jumlah}</TableCell>
+                  <TableCell align="right">{row?.status}</TableCell>
                   <TableCell align="right">
                     <Button
                       variant="contained"
@@ -266,9 +206,17 @@ const Kriteria = ({ setLoading }) => {
                     <Button
                       disabled={row?.bisaDiClick ? false : true}
                       variant="contained"
+                      sx={{ marginRight: "8px" }}
                       onClick={() => openModalEdit(row)}
                     >
-                      Update Sub
+                      Edit
+                    </Button>
+                    <Button
+                      disabled={row?.bisaDiClick ? false : true}
+                      variant="contained"
+                      onClick={() => openModalView(row)}
+                    >
+                      View
                     </Button>
                   </TableCell>
                 </TableRow>
@@ -278,56 +226,8 @@ const Kriteria = ({ setLoading }) => {
         </TableContainer>
       </Stack>
 
-      <Stack spacing={2} sx={{ marginTop: "60px" }}>
-        <Typography level="3" textAlign="center">
-          Perbandingan Berpasangan Level {level} Hirarki AHP Pemilihan Programmer
-        </Typography>
-        <TableContainer component={Paper}>
-          <Table sx={{ minWidth: 650 }} aria-label="simple table">
-            <TableHead>
-              <TableRow>
-                {celsBanding.map((item) => (
-                  <TableCell align="right">{item}</TableCell>
-                ))}
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {data?.daftarPerbandingan?.map((row) => (
-                <TableRow
-                  key={row.name}
-                  sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                >
-                  <TableCell align="right">
-                    {row?.namakriteriapertama}
-                  </TableCell>
-                  <TableCell align="center">
-                    <FormControl variant="standard" sx={{ width: 300 }}>
-                      <InputLabel id="demo-simple-select-standard-label">
-                        Pilih Bobot
-                      </InputLabel>
-                      <Select
-                        // labelId={row?.idnilai}
-                        defaultValue={row?.idnilai}
-                        onChange={(v) =>
-                          handlePilihPerbandingan(v.target.value, row)
-                        }
-                        label="Age"
-                      >
-                        {dataDrop?.map((v) => (
-                          <MenuItem value={v.id}>{v.label}</MenuItem>
-                        ))}
-                      </Select>
-                    </FormControl>
-                  </TableCell>
-                  <TableCell align="right">{row?.namakriteriakedua}</TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
-      </Stack>
     </>
   );
 };
 
-export default Kriteria;
+export default Sesi;

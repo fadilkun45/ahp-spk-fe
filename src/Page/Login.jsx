@@ -10,6 +10,8 @@ import Typewriter from 'typewriter-effect';
 
 
 import React from 'react'
+import { Box } from '@mui/joy'
+import { Image } from '@mui/icons-material'
 
 const Login = ({setLoading}) => {
     const dispatch = useDispatch()
@@ -41,17 +43,18 @@ const Login = ({setLoading}) => {
     }
 
     return (
-        <div style={{ backgroundColor: "#3f51b5" }}>
-            <Container sx={{ width: "45%", display: "flex", height: "100vh", alignItems: "center" }}>
-
-
-                <Stack spacing={3} sx={{ width: "100%", p: "20px 10px", borderRadius: "10px", background: "#FFF" }}>
-                    <Typography textAlign="center" sx={{ fontSize: "30px" }} component="h1">
+        <div style={{ backgroundColor: "#3f51b5"}}>
+            <Stack direction="row" sx={{height: "100vh", overflowY: "hidden"}}>
+            <Box sx={{width: "50%", height: "auto"}}/>
+            <Stack  sx={{ width: "50%", p: "20px 10px", height: "100%", justifyContent: "center", background: "#FFF" }}>
+                    <img width="250px"  style={{margin: "0 auto" , marginTop: "-100px"}} src='https://images.glints.com/unsafe/glints-dashboard.s3.amazonaws.com/company-logo/d7543d6bdd24cd45a0ba5fbef988a0da.jpg' />
+                    <Stack spacing={3} sx={{width: "78%", margin: "0 auto", marginTop: "rem"}}>
+                    <Typography textAlign="center" sx={{ fontSize: "20px" }} component="p" variant="h5">
                         
                         <Typewriter
                             onInit={(typewriter) => {
                                 typewriter.typeString('Silahkan Login untuk masuk Kedalam Sistem')
-                                    .pauseFor(250)
+                                    .pauseFor(340)
                                     .deleteAll()
                                     .start()
                                     .typeString('Selamat Datang')
@@ -70,8 +73,15 @@ const Login = ({setLoading}) => {
                     <Button variant="contained" onClick={onSubmit} color="primary">
                         Simpan
                     </Button>
+                    </Stack>
                 </Stack>
-            </Container>
+            </Stack>
+       
+            {/* <Container sx={{ width: "45%", display: "flex", , alignItems: "center" }}>
+
+
+              
+            </Container> */}
         </div>
     )
 }

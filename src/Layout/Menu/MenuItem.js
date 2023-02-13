@@ -29,6 +29,10 @@ const MenuItem = () =>  {
       name: 'Pusat Kontrol AHP',
       link: '/pusat-kontrol-ahp'
     },
+    {
+      name: 'Sesi Seleksi Programmer',
+      link: '/sesi-seleksi-programmer'
+    },
   ]
 
   return (
