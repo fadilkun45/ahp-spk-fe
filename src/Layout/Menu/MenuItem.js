@@ -7,19 +7,17 @@ import ListItemText from '@mui/material/ListItemText';
 import Divider from '@mui/material/Divider';
 import { Grid, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 
 const MenuItem = () =>  {
+  const users = useSelector((state) => state.login.res)
 
   let navigate = useNavigate()
 
-  let Menu = [
+  let MenuHumanResource = [
     {
       name: 'Halaman Utama',
       link: '/dashboard'
-    },
-    {
-      name: 'Daftar Kandidat',
-      link: '/kandidat-belom-dinilai'
     },
     {
       name: 'Pusat Kontrol Akun',
@@ -32,6 +30,24 @@ const MenuItem = () =>  {
     {
       name: 'Sesi Seleksi Programmer',
       link: '/sesi-seleksi-programmer'
+    },
+  ]
+
+  let MenuSeniorProgrammer = [
+    {
+      name: 'Halaman Utama',
+      link: '/dashboard'
+    },
+    {
+      name: 'Penilaian Kandidat',
+      link: '/kandidat-belom-dinilai'
+    },
+  ]
+
+  let MenuChiefExecutiveOfficer = [
+    {
+      name: 'Halaman Utama',
+      link: '/dashboard'
     },
   ]
 
@@ -51,16 +67,39 @@ const MenuItem = () =>  {
       <Divider />
       <List>
         {
-          Menu.map((item) => (
-            <ListItem key={item.name} disablePadding>
-              <ListItemButton onClick={() => navigate(item.link)}>
-              <ListItemIcon>
-                <DashboardIcon />
-              </ListItemIcon>
-              <ListItemText primary={item.name} />
-            </ListItemButton>
-          </ListItem>
-          ))
+          users.jabatan === 'Human Resource'?
+            MenuHumanResource.map((item) => (
+                <ListItem key={item.name} disablePadding>
+                  <ListItemButton onClick={() => navigate(item.link)}>
+                  <ListItemIcon>
+                    <DashboardIcon />
+                  </ListItemIcon>
+                  <ListItemText primary={item.name} />
+                </ListItemButton>
+              </ListItem>
+              ))
+                : users.jabatan === 'Chief Executive Officer'? 
+                  MenuChiefExecutiveOfficer.map((item) => (
+                    <ListItem key={item.name} disablePadding>
+                      <ListItemButton onClick={() => navigate(item.link)}>
+                      <ListItemIcon>
+                        <DashboardIcon />
+                      </ListItemIcon>
+                      <ListItemText primary={item.name} />
+                    </ListItemButton>
+                  </ListItem>
+                  )) 
+                    : 
+                    MenuSeniorProgrammer.map((item) => (
+                      <ListItem key={item.name} disablePadding>
+                        <ListItemButton onClick={() => navigate(item.link)}>
+                        <ListItemIcon>
+                          <DashboardIcon />
+                        </ListItemIcon>
+                        <ListItemText primary={item.name} />
+                      </ListItemButton>
+                    </ListItem>
+                    ))
         }
       </List>
     </div>

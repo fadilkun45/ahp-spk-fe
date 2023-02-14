@@ -23,7 +23,7 @@ function App() {
       <Route path="/login" element={<Login setLoading={setIsloading} />} />
         <Route path="/" element={<Navigate replace to="/dashboard" />} />
         <Route path="/dashboard" element={<PrivateRoute><Dashboard /></PrivateRoute>} />
-        <Route path="/kandidat-belom-dinilai" element={<PrivateRoute><PenilaianKandidat /></PrivateRoute>} />
+        <Route path="/kandidat-belom-dinilai" element={<PrivateRoute><PenilaianKandidat setLoading={setIsloading} /></PrivateRoute>} />
         <Route path="/pusat-kontrol-akun" element={<PrivateRoute><PusatKontrolAkun setLoading={setIsloading} /></PrivateRoute>} />
         <Route path="/pusat-kontrol-ahp" element={<PrivateRoute><Kriteria setLoading={setIsloading} /></PrivateRoute>} />
         <Route path="/sesi-seleksi-programmer" element={<PrivateRoute><Sesi setLoading={setIsloading} /></PrivateRoute>} />
