@@ -123,3 +123,31 @@ export const postSesi = async (body) => {
     throw new Error(error.response.data?.message)
   }
 }
+
+export const getDataKandidatBelumDinilai = async (idSeniorProgrammer) => {
+  try {
+    let dataKandidatBelumDinilai =  await axios.get(`${BaseUrl}/kandidat-belum-dinilai/${idSeniorProgrammer}`).then((res) => res.data);
+    
+    let dataKandidatSudahDinilai =  await axios.get(`${BaseUrl}/kandidat-sudah-dinilai/${idSeniorProgrammer}`).then((res) => res.data);
+
+    return {
+      dataKandidatBelumDinilai: dataKandidatBelumDinilai?.data,
+      dataKandidatSudahDinilai: dataKandidatSudahDinilai?.data
+    }
+  } catch (error) {
+    console.log(error)
+    throw new Error(error.response.data?.message)
+  }
+}
+
+export const getDataKandidatSudahDinilai = async (idSeniorProgrammer) => {
+  try {
+    console.log(idSeniorProgrammer)
+    console.log('here')
+    let data =  await axios.get(`${BaseUrl}/kandidat-sudah-dinilai/${idSeniorProgrammer}`).then((res) => res.data);
+    return data?.data
+  } catch (error) {
+    console.log(error)
+    throw new Error(error.response.data?.message)
+  }
+}
