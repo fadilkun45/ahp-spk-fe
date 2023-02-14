@@ -234,9 +234,9 @@ const ModalEdit = ({
             <Button variant="contained" onClick={closeModal} color="primary">
               Selesai
             </Button>
-            {/* <Button variant="contained" onClick={submit} color="primary">
-              Simpan
-            </Button> */}
+            <Button variant="contained" onClick={closeModal} color="primary">
+              Mulai Sesi
+            </Button>
           </Stack>
         </ModalDialog>
       </Modal>

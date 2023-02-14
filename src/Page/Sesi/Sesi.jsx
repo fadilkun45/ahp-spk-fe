@@ -37,7 +37,7 @@ const Sesi = ({ setLoading }) => {
   const [level, setLevel] = useState(1)
 
   const { data, isLoading, refetch } = useQuery(
-    ["kriteria",detailId],() => {
+    ["sesi"],() => {
       return getDataSesi();
     },
     { refetchIntervalInBackground: false, retry: false }
@@ -194,19 +194,26 @@ const Sesi = ({ setLoading }) => {
                   <TableCell align="right">{row?.statusSesi}</TableCell>
                   <TableCell align="right">
                     <Button
-                      disabled={row?.bolehDihapus ? false : true}
                       variant="contained"
                       color="error"
-                      sx={{ marginRight: "8px" }}
+                      sx={{ marginRight: "8px", display: row?.bolehDihapus ? "" : "none" }}
                       onClick={() => openModalDelete(row)}
                     >
                       Hapus
                     </Button>
                     <Button
                       variant="contained"
+                      sx={{ marginRight: "8px", display: row?.statusSesi === "selesai" || row?.statusSesi === "sedang berlangsung" ? "" : "none" }}
                       onClick={() => openModalView(row)}
                     >
                       View
+                    </Button>
+                    <Button
+                      variant="contained"
+                      sx={{ display: row?.statusSesi === "belum dimulai" ? "" : "none" }}
+                      onClick={() => openModalEdit(row)}
+                    >
+                      Edit
                     </Button>
                   </TableCell>
                 </TableRow>

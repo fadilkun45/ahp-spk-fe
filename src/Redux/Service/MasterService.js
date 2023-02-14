@@ -82,8 +82,6 @@ export const DeleteKriteria = async (param,body) => {
   }
 }
 
-
-
 export const postIntesitas = async (body) => {
   try {
     let data =  await axios.post(`${BaseUrl}/pusat-kontrol-ahp/intensitas`,body).then((res) => res.data)
@@ -124,27 +122,31 @@ export const postSesi = async (body) => {
   }
 }
 
-export const getDataKandidatBelumDinilai = async (idSeniorProgrammer) => {
+export const getDataKandidatBelumDinilai = async (param) => {
   try {
-    let dataKandidatBelumDinilai =  await axios.get(`${BaseUrl}/kandidat-belum-dinilai/${idSeniorProgrammer}`).then((res) => res.data);
+    let data =  await axios.get(`${BaseUrl}/kandidat-belum-dinilai/${param || ''}`).then((res) => res.data);
     
-    let dataKandidatSudahDinilai =  await axios.get(`${BaseUrl}/kandidat-sudah-dinilai/${idSeniorProgrammer}`).then((res) => res.data);
+    return data?.data
 
-    return {
-      dataKandidatBelumDinilai: dataKandidatBelumDinilai?.data,
-      dataKandidatSudahDinilai: dataKandidatSudahDinilai?.data
-    }
   } catch (error) {
     console.log(error)
     throw new Error(error.response.data?.message)
   }
 }
 
-export const getDataKandidatSudahDinilai = async (idSeniorProgrammer) => {
+export const getDataKandidatSudahDinilai = async (param) => {
   try {
-    console.log(idSeniorProgrammer)
-    console.log('here')
-    let data =  await axios.get(`${BaseUrl}/kandidat-sudah-dinilai/${idSeniorProgrammer}`).then((res) => res.data);
+    let data =  await axios.get(`${BaseUrl}/kandidat-sudah-dinilai/${param || ''}`).then((res) => res.data);
+    return data?.data
+  } catch (error) {
+    console.log(error)
+    throw new Error(error.response.data?.message)
+  }
+}
+
+export const getDataKandidatSudahDinilaiDetaail = async (param) => {
+  try {
+    let data =  await axios.get(`${BaseUrl}/kandidat-sudah-dinilai/nilai-kandidat/${param || ''}`).then((res) => res.data);
     return data?.data
   } catch (error) {
     console.log(error)

@@ -14,6 +14,7 @@ import {
   TextField,
 } from "@mui/material";
 import { useState, useEffect } from "react";
+import { getDataSesi } from "../../Redux/Service/MasterService";
 import ModalDelete from "./ModalDelete";
 // import ModalNewIntesitas from "./ModalNewIntesitas";
 import ReactSelect from "react-select";
@@ -41,16 +42,16 @@ const ModalView = ({
   const [DetailData, setDetailData] = useState(null);
   const [modalEdit, setModalEdit] = useState(false);
   const [modalDelete, setModalDelete] = useState(false);
-  const { data, isLoading, refetch } = useQuery(
-    ["kriteriaDetails"],
-    () => {
-      return getDataKriteria(`?idKriteriaInduk=${obj?.idKriteria}`);
-    },
-    { refetchIntervalInBackground: false, retry: false }
-  );
+  // const { data, isLoading, refetch } = useQuery(
+  //   ["kriteriaDetails"],
+  //   () => {
+  //     return getDataSesi(`?idKriteriaInduk=${obj?.idSesi}`);
+  //   },
+  //   { refetchIntervalInBackground: false, retry: false }
+  // );
 
 
-  // console.log(data)
+  console.log(obj)
 
   const cels = [
     "Nama Kandidat",
@@ -60,7 +61,18 @@ const ModalView = ({
     "Pemberi Nilai",
     "No HP",
     "Email",
+    "Action"
   ];
+
+  const data = [
+    {
+      nama: "manusia"
+    }
+  ]
+
+  const openModalDetail = (row) => {
+
+  }
 
 
   return (
@@ -108,20 +120,27 @@ const ModalView = ({
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    {data?.daftarKriteria?.map((row) => (
+                    {data?.map((row) => (
                       <TableRow
                         key={row.name}
                         sx={{
-                          "&:last-child td, &:last-child th": { border: 0 },
+                          "&:last-child td, &:last-child th": { border: 0 }
                         }}
                       >
                         <TableCell align="left">{row?.namaKriteria}</TableCell>
-                        <TableCell align="left">{row?.bobot}</TableCell>
+                        <TableCell align="left">{row?.nama}</TableCell>
                         <TableCell align="left">{row?.jenis}</TableCell>
                         <TableCell align="left">{row?.jenis}</TableCell>
                         <TableCell align="left">{row?.jenis}</TableCell>
                         <TableCell align="left">{row?.jenis}</TableCell>
                         <TableCell align="left">{row?.jenis}</TableCell>
+                        <Button
+                      variant="contained"
+                      sx={{marginTop: "10px"}}
+                      onClick={() => openModalDetail(row)}
+                    >
+                      Hasil
+                    </Button>
                       </TableRow>
                     ))}
                   </TableBody>

@@ -31,22 +31,30 @@ const PenilaianKandidat = ({setLoading}) => {
   const [DetailData, setDetailData] = useState(null)
   const users = useSelector((state) => state.login.res)
   
-  const dataKandidatBelumDanSudahDinilai = useQuery([], () => {
-    return getDataKandidatBelumDinilai(users.id)
-  })
+  const { data: dataSudahDinilai, isLoading, refetch } = useQuery(
+    ["sudahDinilai"],() => {
+      return getDataKandidatSudahDinilai(users?.id);
+    },
+    { refetchIntervalInBackground: false, retry: false }
+  );
 
-
-  const [dataBelumDinilai, setDataBelumDinilai] = useState(dataKandidatBelumDanSudahDinilai?.data?.dataKandidatBelumDinilai?.daftarKandidat);
-
-  const [dataSudahDinilai, setDataSudahDinilai] = useState(dataKandidatBelumDanSudahDinilai?.data?.dataKandidatSudahDinilai?.daftarKandidat);
-
-  console.log(dataBelumDinilai, "dataBelumDinilai")
-  console.log(dataSudahDinilai, "dataSudahDinilai")
+    
+  const { data: dataBelumDinilai, isLoading: isLoadingDataBelomDiNilai, refetch: refecthDataBelomDinilai } = useQuery(
+    ["BelomDinilai"],() => {
+      return getDataKandidatBelumDinilai(users.id);
+    },
+    { refetchIntervalInBackground: false, retry: false }
+  );
 
   const cels = ["Nama", "Sesi Rekutmen", "Action"];
 
   const handleChange = (event, newValue) => {
     setStatusTab(newValue);
+    if(newValue === 0){
+      refetch()
+    }else{
+      refecthDataBelomDinilai()
+    }
   };
 
   const openModalPenilaian = (row) => {
@@ -61,13 +69,23 @@ const PenilaianKandidat = ({setLoading}) => {
 
   }
 
+  useEffect(() => {
+      
+    if(isLoading || isLoadingDataBelomDiNilai){
+        setLoading(true)
+      }else{
+        setLoading(false)
+      }
+
+  },[isLoading,isLoadingDataBelomDiNilai])
+
   
 
   return (
     <>
 
     {modalPenilaian &&     <ModalPenilaian show={modalPenilaian} closeModal={() => setModalPenilaian(false)} obj={DetailData} /> }
-    {modalDetail &&     <ModalDetail show={modalDetail} closeModal={() => setModalDetail(false)} obj={DetailData} />}
+    {modalDetail &&     <ModalDetail setLoading={setLoading} show={modalDetail} closeModal={() => setModalDetail(false)} obj={DetailData} />}
 
       <Box sx={{ width: "100%" }}>
         <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
@@ -91,7 +109,7 @@ const PenilaianKandidat = ({setLoading}) => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {dataBelumDinilai?.map((row) => (
+                {dataBelumDinilai?.daftarKandidat?.map((row) => (
                   <TableRow
                     key={row.name}
                     sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
@@ -118,7 +136,7 @@ const PenilaianKandidat = ({setLoading}) => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {dataSudahDinilai?.map((row) => (
+                {dataSudahDinilai?.daftarKandidat?.map((row) => (
                   <TableRow
                     key={row.name}
                     sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
