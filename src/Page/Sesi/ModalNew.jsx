@@ -10,7 +10,7 @@ const ModalNew = ({ show, closeModal, obj, submit }) => {
 
     const [kriteriaOptions, setkriteriaOptions] = useState([])
     const [formData, setFormData] = useState({
-      nama: "",
+      namaSesi: "",
     })
 
     useEffect(() => {
@@ -40,7 +40,7 @@ const ModalNew = ({ show, closeModal, obj, submit }) => {
 
         <Stack spacing={3}>
             
-          <TextField id="standard-basic" label="Nama Sesi" variant="standard" onChange={(v) => setFormData({...formData, nama: v.target.value})} />
+          <TextField id="standard-basic" label="Nama Sesi" variant="standard" onChange={(v) => setFormData({...formData, namaSesi: v.target.value})} />
           {/* <Autocomplete
               disablePortal
               id="combo-box-demo"

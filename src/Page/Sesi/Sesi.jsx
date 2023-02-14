@@ -20,9 +20,9 @@ import { Typography } from "@mui/joy";
 import { Stack } from "@mui/system";
 import { useQuery } from "@tanstack/react-query";
 import {
-  DeleteKriteria,
-  getDataKriteria,
-  postKriteria,
+  DeleteSesi,
+  getDataSesi,
+  postSesi,
 } from "../../Redux/Service/MasterService";
 import { toast } from "react-toastify";
 import ModalView from "./ModalView";
@@ -38,15 +38,13 @@ const Sesi = ({ setLoading }) => {
 
   const { data, isLoading, refetch } = useQuery(
     ["kriteria",detailId],() => {
-      return getDataKriteria(
-        `?idKriteriaInduk=${detailId || ""}`
-      );
+      return getDataSesi();
     },
     { refetchIntervalInBackground: false, retry: false }
   );
 
 
-  const cels = ["Nama Sesi", "Jumlah Kandidat", "Jumlah Kandidat yang telah dinilai", "Nilai", "Action"];
+  const cels = ["Nama Sesi", "Jumlah Kandidat", "Jumlah Kandidat yang telah dinilai", "Status", "Action"];
 
   useEffect(() => {
     if (isLoading ) {
@@ -88,7 +86,7 @@ const Sesi = ({ setLoading }) => {
 
   const handleNewSesi = (row) => {
     setLoading(true);
-    postKriteria({...row, idKriteriaInduk: !detailId ? null : detailId })
+    postSesi({...row, idKriteriaInduk: !detailId ? null : detailId })
       .then((res) => {
         refetch();
         setModalNew(false);
@@ -102,19 +100,19 @@ const Sesi = ({ setLoading }) => {
       });
   };
 
-  const handleHapusKriteria = (row) => {
+  const handleHapusSesi = (row) => {
     setLoading(true);
-    DeleteKriteria(row.idKriteria)
+    DeleteSesi(row.idSesi)
       .then((res) => {
         refetch();
         setModalDelete(false);
         setLoading(false);
-        toast.success("Hapus Kriteria berhasil");
+        toast.success("Hapus Sesi berhasil");
       })
       .catch((err) => {
         setLoading(false);
         setModalDelete(false);
-        toast.error(`gagal Hapus Kriteria ${err}`);
+        toast.error(`gagal Hapus Sesi ${err}`);
       });
   };
 
@@ -156,7 +154,7 @@ const Sesi = ({ setLoading }) => {
           show={modalDelete}
           closeModal={() => setModalDelete(false)}
           obj={DetailData}
-          submit={handleHapusKriteria}
+          submit={handleHapusSesi}
         />
       )}
 
@@ -182,7 +180,7 @@ const Sesi = ({ setLoading }) => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {data?.daftarKriteria?.map((row) => (
+              {data?.daftarSesiPerekrutan?.map((row) => (
                 <TableRow
                   key={row.name}
                   sx={{
@@ -190,12 +188,13 @@ const Sesi = ({ setLoading }) => {
                     background: row?.terdapatError ? "#ef5350" : "",
                   }}
                 >
-                  <TableCell align="right">{row?.nama}</TableCell>
-                  <TableCell align="right">{row?.jumlah}</TableCell>
-                  <TableCell align="right">{row?.jumlah}</TableCell>
-                  <TableCell align="right">{row?.status}</TableCell>
+                  <TableCell align="right">{row?.namaSesi}</TableCell>
+                  <TableCell align="right">{row?.jumlahKandidat}</TableCell>
+                  <TableCell align="right">{row?.jumlahKandidatDinilai}</TableCell>
+                  <TableCell align="right">{row?.statusSesi}</TableCell>
                   <TableCell align="right">
                     <Button
+                      disabled={row?.bolehDihapus ? false : true}
                       variant="contained"
                       color="error"
                       sx={{ marginRight: "8px" }}
@@ -204,15 +203,6 @@ const Sesi = ({ setLoading }) => {
                       Hapus
                     </Button>
                     <Button
-                      disabled={row?.bisaDiClick ? false : true}
-                      variant="contained"
-                      sx={{ marginRight: "8px" }}
-                      onClick={() => openModalEdit(row)}
-                    >
-                      Edit
-                    </Button>
-                    <Button
-                      disabled={row?.bisaDiClick ? false : true}
                       variant="contained"
                       onClick={() => openModalView(row)}
                     >
