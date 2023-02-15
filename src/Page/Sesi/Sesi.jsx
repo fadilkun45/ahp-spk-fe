@@ -23,6 +23,7 @@ import {
   DeleteSesi,
   getDataSesi,
   postSesi,
+  SelesaiSesi,
 } from "../../Redux/Service/MasterService";
 import { toast } from "react-toastify";
 import ModalView from "./ModalView";
@@ -76,13 +77,11 @@ const Sesi = ({ setLoading }) => {
     setDetailData(row);
     setModalDelete(true);
   };
-
   
   const openModalView = (row) => {
     setDetailData(row);
     setModalView(true);
   };
-
 
   const handleNewSesi = (row) => {
     setLoading(true);
@@ -116,8 +115,29 @@ const Sesi = ({ setLoading }) => {
       });
   };
 
+  const handleEdit = (row) => {
+    setModalEdit(false)
+    refetch()
+  }
 
- 
+  
+  const handleSelesai = (row) => {
+    setLoading(true);
+    SelesaiSesi({...row, idSesi: row?.idSesi })
+      .then((res) => {
+        refetch();
+        setModalNew(false);
+        setLoading(false);
+        toast.success("Selesai Sesi berhasil");
+      })
+      .catch((err) => {
+        setLoading(false);
+        setModalNew(false);
+        toast.error(`gagal Selesai Sesi ${err}`);
+      });
+  };
+
+
   return (
     <>
       {modalView && (
@@ -134,8 +154,9 @@ const Sesi = ({ setLoading }) => {
           level={level}
           setIsloading={setLoading}
           show={modalEdit}
-          closeModal={() => setModalEdit(false)}
+          closeModal={() => handleEdit()}
           obj={DetailData}
+          submit={handleSelesai}
           setLoading={setLoading}
         />
       )}

@@ -1,7 +1,7 @@
 import Modal from "@mui/joy/Modal";
 import ModalClose from "@mui/joy/ModalClose";
 import Typography from "@mui/joy/Typography";
-import { ModalDialog, Table } from "@mui/joy";
+import { Grid, ModalDialog, Table } from "@mui/joy";
 import {
   Button,
   Paper,
@@ -13,24 +13,17 @@ import {
   TableRow,
   TextField,
 } from "@mui/material";
+
 import { useState, useEffect } from "react";
-import { getDataDetailSesi } from "../../Redux/Service/MasterService";
 import ModalDelete from "./ModalDelete";
 // import ModalNewIntesitas from "./ModalNewIntesitas";
 import ReactSelect from "react-select";
 import { toast } from "react-toastify";
-import {
-  DeleteKriteria,
-  getDataKriteria,
-  postIntesitas,
-  postKriteria,
-  postPerbandingan,
-} from "../../Redux/Service/MasterService";
 import { useQuery } from "@tanstack/react-query";
 import ModalNewKandidat from "./ModalNewKandidat";
-import ModalViewNilai from "./ModalViewNilai";
+import { getDataDetailSesi } from "../../Redux/Service/MasterService";
 
-const ModalView = ({
+const ModalViewNilai = ({
   show,
   closeModal,
   obj,
@@ -39,38 +32,29 @@ const ModalView = ({
   perbandingan,
   level
 }) => {
+  const [modalNew, setModalNew] = useState(false);
   const [DetailData, setDetailData] = useState(null);
-  const [modalView, setModalView] = useState(false)
+  const [modalEdit, setModalEdit] = useState(false);
   const [modalDelete, setModalDelete] = useState(false);
   const { data, isLoading, refetch } = useQuery(
-    ["sesiDetails"],
+    ["KandidatDetail"],
     () => {
-      return getDataDetailSesi(obj.idSesi);
+      return getDataDetailSesi
     },
     { refetchIntervalInBackground: false, retry: false }
   );
 
   const cels = [
-    "Nama Kandidat",
-    "Rata-Rata Nilai Ideal",
-    "Total Nilai Normal",
-    "Ranking",
-    "Pemberi Nilai",
-    "No HP",
-    "Email",
-    "Action"
+    "Pertanyaan",
+    "Penilaian",
+    "Nilai Ideal",
+    "Nilai Normal",
   ];
 
-  const openModalDetail = (row) => {
-    setDetailData(row)
-    setModalView(true)
-  }
 
 
   return (
     <>
-      {modalView &&  <ModalViewNilai show={modalView} obj={DetailData} closeModal={() => setModalView(false)} />}
-
       <Modal
         aria-labelledby="modal-title"
         aria-describedby="modal-desc"
@@ -85,25 +69,20 @@ const ModalView = ({
         >
           <ModalClose />
           <Typography id="layout-modal-title" component="h2">
-            History Sesi
+            Penilaian Terhadap Nama oleh Senior Programmer
           </Typography>
 
-          <Button
-            sx={{ marginBottom: "20px" }}
-            variant="contained"
-          // onClick={() => ()}
-          >
-            Unduh Laporan
-          </Button>
 
           <Stack sx={{ overflowY: "auto", height: "60vh" }}>
+
+
 
             <Stack spacing={2}>
               {/* <Typography level="3" textAlign="center">
 
               </Typography> */}
               <TableContainer component={Paper}>
-                <Table sx={{ minWidth: 1500 }} aria-label="simple table">
+                <Table sx={{ minWidth: 800 }} aria-label="simple table">
                   <TableHead>
                     <TableRow>
                       {cels.map((item) => (
@@ -123,25 +102,27 @@ const ModalView = ({
                         <TableCell align="left">{row?.rataRataNilaiIdeal}</TableCell>
                         <TableCell align="left">{row?.totalNilaiNormal}</TableCell>
                         <TableCell align="left">{row?.rank}</TableCell>
-                        <TableCell align="left">{row?.namaSeniorProgrammerPenilai}</TableCell>
-                        <TableCell align="left">{row?.noHp}</TableCell>
-                        <TableCell align="left">{row?.email}</TableCell>
-                        <TableCell>
-                          <Button
-                            variant="contained"
-                            sx={{ marginTop: "10px" }}
-                            onClick={() => openModalDetail(row)}
-                          >
-                            Hasil
-                          </Button>
-                        </TableCell>
                       </TableRow>
                     ))}
                   </TableBody>
                 </Table>
               </TableContainer>
             </Stack>
+            <Grid container rowSpacing={1}>
+              <Grid item xs={6}>
+                <Typography>Rata-Rata Nilai Ideal</Typography>
+              </Grid>
+              <Grid item xs={3}>
+                <Typography>12</Typography>
+              </Grid>
+              <Grid item xs={6}>
+                <Typography>Total Nilai Nilai Normal</Typography>
+              </Grid>
+              <Grid item xs={3}>
+                <Typography></Typography>
+              </Grid>
 
+            </Grid>
           </Stack>
 
           <Stack direction="row" spacing={2} sx={{ marginTop: "20px" }}>
@@ -158,4 +139,4 @@ const ModalView = ({
   );
 };
 
-export default ModalView;
+export default ModalViewNilai;

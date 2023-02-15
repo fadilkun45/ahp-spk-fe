@@ -22,10 +22,10 @@ const ModalDelete = ({ show, closeModal, obj, submit }) => {
       >
         <ModalClose />
         <Typography id="layout-modal-title" component="h2">
-            Hapus Kriteria
+            Hapus Kandidat
         </Typography>
         <Typography id="layout-modal-description" component="h2">
-            Anda Yakin Ingin Menghapus Kriteria ?
+            Anda Yakin Ingin Menghapus Kandidat ?
         </Typography>
 
     

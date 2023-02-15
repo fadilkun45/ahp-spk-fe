@@ -19,15 +19,18 @@ import ModalDelete from "./ModalDelete";
 import ReactSelect from "react-select";
 import { toast } from "react-toastify";
 import {
+  DeleteKandidat,
   DeleteKriteria,
   getDataKriteria,
   postIntesitas,
+  postKandidat,
   postKriteria,
   postPerbandingan,
 } from "../../Redux/Service/MasterService";
 import { useQuery } from "@tanstack/react-query";
 import ModalNewKandidat from "./ModalNewKandidat";
 import { getDataDetailSesi } from "../../Redux/Service/MasterService";
+import ModalViewNilai from "./ModalViewNilai";
 
 const ModalEdit = ({
   show,
@@ -39,6 +42,7 @@ const ModalEdit = ({
   level
 }) => {
   const [modalNew, setModalNew] = useState(false);
+  const [modalView, setModalView] = useState(false)
   const [DetailData, setDetailData] = useState(null);
   const [modalEdit, setModalEdit] = useState(false);
   const [modalDelete, setModalDelete] = useState(false);
@@ -64,7 +68,7 @@ const ModalEdit = ({
     })
 
     setDataDrop(datas);
-  }, [perbandingan,data]);
+  }, [perbandingan, data]);
 
   const cels = [
     "Nama Kandidat",
@@ -90,24 +94,24 @@ const ModalEdit = ({
 
   const handleHapusKriteria = (row) => {
     setIsloading(true);
-    DeleteKriteria(row.idKriteria)
+    DeleteKandidat(row.idKriteria)
       .then((res) => {
         refetch();
         setModalDelete(false);
         setIsloading(false);
-        toast.success("Hapus Kriteria berhasil");
+        toast.success("Hapus Kandidat berhasil");
       })
       .catch((err) => {
         setIsloading(false);
         setModalDelete(false);
-        toast.error(`gagal Hapus Kriteria ${err}`);
+        toast.error(`gagal Hapus Kandidat ${err}`);
       });
   };
 
   const handlePilihPerbandingan = (value, row) => {
     console.log(value);
     setIsloading(true);
-    postPerbandingan({idKriteriaPertama: row?.idkriteriapertama ,idKriteriaKedua: row?.idkriteriakedua, idPenilaian: value}).then((res) => {
+    postPerbandingan({ idKriteriaPertama: row?.idkriteriapertama, idKriteriaKedua: row?.idkriteriakedua, idPenilaian: value }).then((res) => {
       refetch()
       // setModalNew(false)
       setIsloading(false)
@@ -119,9 +123,9 @@ const ModalEdit = ({
     })
   };
 
-  const handleNewKriteria = (row) => {
-    setIsloading(true);
-    postIntesitas({...row, idKriteria: obj?.idKriteria})
+  const handleNewKandidat = (row) => {
+    setIsloading(true)
+    postKandidat({ ...row, idSesi: obj?.idSesi })
       .then((res) => {
         refetch();
         setModalNew(false);
@@ -135,14 +139,25 @@ const ModalEdit = ({
       });
   };
 
+
+
+  const openModalDetail = (row) => {
+    setDetailData(row)
+    setModalView(true)
+  }
+
+
   return (
     <>
+
+      {modalView && <ModalViewNilai show={modalView} obj={DetailData} closeModal={() => setModalView(false)} />}
+
       {modalNew && (
         <ModalNewKandidat
           show={modalNew}
           closeModal={() => setModalNew(false)}
           obj={DetailData}
-          submit={handleNewKriteria}
+          submit={handleNewKandidat}
         />
       )}
 
@@ -169,7 +184,7 @@ const ModalEdit = ({
         >
           <ModalClose />
           <Typography id="layout-modal-title" component="h2">
-          Daftar Kandidat          
+            Daftar Kandidat
           </Typography>
           <Button
             sx={{ marginBottom: "20px" }}
@@ -217,6 +232,14 @@ const ModalEdit = ({
                           >
                             Hapus
                           </Button>
+                          <Button
+                            variant="contained"
+                            color="success"
+                            sx={{ marginRight: "8px" }}
+                            onClick={() => openModalDetail(row)}
+                          >
+                            View
+                          </Button>
                         </TableCell>
                       </TableRow>
                     ))}
@@ -229,10 +252,10 @@ const ModalEdit = ({
 
           <Stack direction="row" spacing={2} sx={{ marginTop: "20px" }}>
             <Button variant="contained" onClick={closeModal} color="primary">
-              Selesai
+              Tutup
             </Button>
-            <Button variant="contained" onClick={closeModal} color="primary">
-              Mulai Sesi
+            <Button variant="contained" onClick={() => submit(obj)} color="success">
+              Selesai Sesi
             </Button>
           </Stack>
         </ModalDialog>

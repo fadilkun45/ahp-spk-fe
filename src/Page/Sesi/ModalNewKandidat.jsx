@@ -4,19 +4,44 @@ import Typography from "@mui/joy/Typography";
 import { ModalDialog } from "@mui/joy";
 import { Autocomplete, Button, Stack, TextField } from "@mui/material";
 import { useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { getSeniorDropdown } from "../../Redux/Service/MasterService";
+import ReactSelect from "react-select";
 
 const ModalNewKandidat = ({ show, closeModal, obj, submit }) => {
 
-    const [penilaiOptions, setPenilaiOptions] = useState([])
-    const [formData, setFormData] = useState({
-      nama: "",
-    })
+  const [formData, setFormData] = useState({
+    namaKandidat: "",
+    emailKandidat: "",
+    noHpKandidat: "",
+    idSeniorProgrammer: ""
+  })
+  const { data: dropdown, isLoading, refetch } = useQuery(
+    ["dropdownSenior"],
+    () => {
+      return getSeniorDropdown();
+    },
+    { refetchIntervalInBackground: false, retry: false }
+  );
 
-    useEffect(() => {
-     
-    },[])
 
-  
+  const [dataDrop, setDataDrop] = useState([]);
+
+  useEffect(() => {
+    let data = [];
+
+    dropdown?.seniorProgrammer?.map((v) => {
+      data.push({ value: v.id, label: v.nama });
+    });
+
+    setDataDrop(data);
+
+    console.log(data)
+  }, [dropdown]);
+
+
+
+
   return (
     <Modal
       aria-labelledby="modal-title"
@@ -32,23 +57,25 @@ const ModalNewKandidat = ({ show, closeModal, obj, submit }) => {
       >
         <ModalClose />
         <Typography id="layout-modal-title" component="h2">
-            Tambah Kandidat
+          Tambah Kandidat
         </Typography>
-        
+
 
         <Stack spacing={3}>
-            
-          <TextField id="standard-basic" label="Nama" variant="standard" onChange={(v) => setFormData({...formData, nama: v.target.value})} />
-          <TextField id="standard-basic" label="No Handphone" variant="standard" onChange={(v) => setFormData({...formData, nama: v.target.value})} />
-          <TextField id="standard-basic" label="Email" variant="standard" onChange={(v) => setFormData({...formData, nama: v.target.value})} />
 
-          <Autocomplete
-              disablePortal
-              id="combo-box-demo"
-              options={penilaiOptions}
-              onChange={(v) => setFormData({...formData, jenis: v.target.textContent })}
-              renderInput={(params) => <TextField {...params} label="Senior Programmer Penilai" />}
-            />
+          <TextField id="standard-basic" label="Nama" variant="standard" onChange={(v) => setFormData({ ...formData, namaKandidat: v.target.value })} />
+          <TextField id="standard-basic" label="No Handphone" variant="standard" onChange={(v) => setFormData({ ...formData, emailKandidat: v.target.value })} />
+          <TextField id="standard-basic" label="Email" variant="standard" onChange={(v) => setFormData({ ...formData, noHpKandidat: v.target.value })} />
+
+          <ReactSelect
+            options={dataDrop}
+            styles={{ menuPortal: base => ({ ...base, zIndex: 9999 }) }}
+            menuPortalTarget={document.body}
+            onChange={(v) =>
+              setFormData({...formData, idSeniorProgrammer: v.value})
+            }
+            menuPlacement="top"
+          />
 
         </Stack>
 

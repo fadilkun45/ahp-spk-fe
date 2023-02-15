@@ -14,8 +14,9 @@ import Box from '@mui/material/Box';
 import ModalPenilaian from "./ModalPenilaian";
 import ModalDetail from "./ModalDetail";
 import { useQuery } from "@tanstack/react-query";
-import { getDataKandidatBelumDinilai, getDataKandidatSudahDinilai } from "../../Redux/Service/MasterService";
+import { getDataKandidatBelumDinilai, getDataKandidatSudahDinilai, postKriteria, postPenilaian } from "../../Redux/Service/MasterService";
 import { useDispatch, useSelector } from 'react-redux';
+import { toast } from "react-toastify";
 
 function a11yProps(index) {
   return {
@@ -24,23 +25,22 @@ function a11yProps(index) {
   };
 }
 
-const PenilaianKandidat = ({setLoading}) => {
+const PenilaianKandidat = ({ setLoading }) => {
   const [statusTab, setStatusTab] = useState(0)
   const [modalPenilaian, setModalPenilaian] = useState(false)
   const [modalDetail, setModalDetail] = useState(false)
   const [DetailData, setDetailData] = useState(null)
   const users = useSelector((state) => state.login.res)
-  
+
   const { data: dataSudahDinilai, isLoading, refetch } = useQuery(
-    ["sudahDinilai"],() => {
+    ["sudahDinilai"], () => {
       return getDataKandidatSudahDinilai(users?.id);
     },
     { refetchIntervalInBackground: false, retry: false }
   );
 
-    
   const { data: dataBelumDinilai, isLoading: isLoadingDataBelomDiNilai, refetch: refecthDataBelomDinilai } = useQuery(
-    ["BelomDinilai"],() => {
+    ["BelomDinilai"], () => {
       return getDataKandidatBelumDinilai(users.id);
     },
     { refetchIntervalInBackground: false, retry: false }
@@ -50,9 +50,9 @@ const PenilaianKandidat = ({setLoading}) => {
 
   const handleChange = (event, newValue) => {
     setStatusTab(newValue);
-    if(newValue === 0){
+    if (newValue === 0) {
       refetch()
-    }else{
+    } else {
       refecthDataBelomDinilai()
     }
   };
@@ -70,22 +70,38 @@ const PenilaianKandidat = ({setLoading}) => {
   }
 
   useEffect(() => {
-      
-    if(isLoading || isLoadingDataBelomDiNilai){
-        setLoading(true)
-      }else{
-        setLoading(false)
-      }
 
-  },[isLoading,isLoadingDataBelomDiNilai])
+    if (isLoading || isLoadingDataBelomDiNilai) {
+      setLoading(true)
+    } else {
+      setLoading(false)
+    }
 
-  
+  }, [isLoading, isLoadingDataBelomDiNilai])
+
+  const handlePenilaian = (row) => {
+    setLoading(true);
+    postPenilaian({ dataDataPenilaian: row},DetailData?.id)
+      .then((res) => {
+        refetch();
+        setModalPenilaian(false);
+        setLoading(false);
+        toast.success("Penilaian berhasil");
+      })
+      .catch((err) => {
+        setLoading(false);
+        setModalPenilaian(false);
+        toast.error(`gagal Penilaian ${err}`);
+      });
+  };
+
+
 
   return (
     <>
 
-    {modalPenilaian &&     <ModalPenilaian show={modalPenilaian} closeModal={() => setModalPenilaian(false)} obj={DetailData} /> }
-    {modalDetail &&     <ModalDetail setLoading={setLoading} show={modalDetail} closeModal={() => setModalDetail(false)} obj={DetailData} />}
+      {modalPenilaian && <ModalPenilaian show={modalPenilaian} closeModal={() => setModalPenilaian(false)} obj={DetailData} submit={handlePenilaian} />}
+      {modalDetail && <ModalDetail setLoading={setLoading} show={modalDetail} closeModal={() => setModalDetail(false)} obj={DetailData} />}
 
       <Box sx={{ width: "100%" }}>
         <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
@@ -99,7 +115,7 @@ const PenilaianKandidat = ({setLoading}) => {
           </Tabs>
         </Box>
         {
-          <TableContainer component={Paper} sx={{display: statusTab === 0 ? "block" : "none", marginTop: "20px"}} >
+          <TableContainer component={Paper} sx={{ display: statusTab === 0 ? "block" : "none", marginTop: "20px" }} >
             <Table sx={{ minWidth: 650 }} aria-label="simple table">
               <TableHead>
                 <TableRow>
@@ -126,7 +142,7 @@ const PenilaianKandidat = ({setLoading}) => {
           </TableContainer>
         }
         {
-          <TableContainer component={Paper} sx={{display: statusTab === 1 ? "block" : "none", marginTop: "20px"}}>
+          <TableContainer component={Paper} sx={{ display: statusTab === 1 ? "block" : "none", marginTop: "20px" }}>
             <Table sx={{ minWidth: 650 }} aria-label="simple table">
               <TableHead>
                 <TableRow>

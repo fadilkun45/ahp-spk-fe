@@ -163,3 +163,63 @@ export const getDataKandidatSudahDinilaiDetaail = async (param) => {
     throw new Error(error.response.data?.message)
   }
 }
+
+export const getSeniorDropdown = async (idSesi) => {
+  try {
+    let data =  await axios.get(`${BaseUrl}/pusat-kontrol-sesi/dropdown/senior-programmer/`).then((res) => res.data)
+    return data?.data
+  } catch (error) {
+    console.log(error)
+    throw new Error(error.response.data?.message)
+  }
+}
+
+export const postKandidat = async (body) => {
+  try {
+    let data =  await axios.post(`${BaseUrl}/pusat-kontrol-sesi/kandidat`,body).then((res) => res.data)
+    return data?.data
+  } catch (error) {
+    console.log(error)
+    throw new Error(error.response.data?.message)
+  }
+}
+
+export const DeleteKandidat = async (param,body) => {
+  try {
+    let data =  await axios.delete(`${BaseUrl}/pusat-kontrol-sesi/kandidat/${param}`,body).then((res) => res.data)
+    return data?.data
+  } catch (error) {
+    console.log(error)
+    throw new Error(error.response.data?.message)
+  }
+}
+
+export const SelesaiSesi = async (body) => {
+  try {
+    let data =  await axios.post(`${BaseUrl}/pusat-kontrol-sesi`, body).then((res) => res.data)
+    return data?.data
+  } catch (error) {
+    console.log(error)
+    throw new Error(error.response.data?.message)
+  }
+}
+
+export const getSoalKandidat = async (param) => {
+  try {
+    let data =  await axios.get(`${BaseUrl}/kandidat-belum-dinilai/daftar-intensitas-kriteria/${param}`).then((res) => res.data)
+    return data?.data
+  } catch (error) {
+    console.log(error)
+    throw new Error(error.response.data?.message)
+  }
+}
+
+export const postPenilaian = async (body,params) => {
+  try {
+    let data =  await axios.post(`${BaseUrl}/kandidat-belum-dinilai/nilai-kandidat/${params}`,body).then((res) => res.data)
+    return data?.data
+  } catch (error) {
+    console.log(error)
+    throw new Error(error.response.data?.message)
+  }
+}
