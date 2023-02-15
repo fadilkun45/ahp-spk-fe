@@ -27,6 +27,7 @@ import {
 } from "../../Redux/Service/MasterService";
 import { useQuery } from "@tanstack/react-query";
 import ModalNewKandidat from "./ModalNewKandidat";
+import { getDataDetailSesi } from "../../Redux/Service/MasterService";
 
 const ModalEdit = ({
   show,
@@ -42,9 +43,9 @@ const ModalEdit = ({
   const [modalEdit, setModalEdit] = useState(false);
   const [modalDelete, setModalDelete] = useState(false);
   const { data, isLoading, refetch } = useQuery(
-    ["kriteriaDetails"],
+    ["sesiDetails"],
     () => {
-      return getDataKriteria(`?idKriteriaInduk=${obj?.idKriteria}`);
+      return getDataDetailSesi(obj.idSesi);
     },
     { refetchIntervalInBackground: false, retry: false }
   );
@@ -64,10 +65,6 @@ const ModalEdit = ({
 
     setDataDrop(datas);
   }, [perbandingan,data]);
-
-
-
-  // console.log(data)
 
   const cels = [
     "Nama Kandidat",
@@ -197,20 +194,20 @@ const ModalEdit = ({
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    {data?.daftarKriteria?.map((row) => (
+                    {data?.daftarKandidatSesi?.map((row) => (
                       <TableRow
                         key={row.name}
                         sx={{
                           "&:last-child td, &:last-child th": { border: 0 },
                         }}
                       >
-                        <TableCell align="left">{row?.namaKriteria}</TableCell>
-                        <TableCell align="left">{row?.bobot}</TableCell>
-                        <TableCell align="left">{row?.jenis}</TableCell>
-                        <TableCell align="left">{row?.jenis}</TableCell>
-                        <TableCell align="left">{row?.jenis}</TableCell>
-                        <TableCell align="left">{row?.jenis}</TableCell>
-                        <TableCell align="left">{row?.jenis}</TableCell>
+                        <TableCell align="left">{row?.nama}</TableCell>
+                        <TableCell align="left">{row?.rataRataNilaiIdeal}</TableCell>
+                        <TableCell align="left">{row?.totalNilaiNormal}</TableCell>
+                        <TableCell align="left">{row?.rank}</TableCell>
+                        <TableCell align="left">{row?.namaSeniorProgrammerPenilai}</TableCell>
+                        <TableCell align="left">{row?.noHp}</TableCell>
+                        <TableCell align="left">{row?.email}</TableCell>
                         <TableCell align="left">
                           <Button
                             variant="contained"

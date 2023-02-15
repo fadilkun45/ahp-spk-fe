@@ -203,14 +203,14 @@ const Sesi = ({ setLoading }) => {
                     </Button>
                     <Button
                       variant="contained"
-                      sx={{ marginRight: "8px", display: row?.statusSesi === "selesai" || row?.statusSesi === "sedang berlangsung" ? "" : "none" }}
+                      sx={{ marginRight: "8px", display: row?.statusSesi === "selesai"? "" : "none" }}
                       onClick={() => openModalView(row)}
                     >
                       View
                     </Button>
                     <Button
                       variant="contained"
-                      sx={{ display: row?.statusSesi === "belum dimulai" ? "" : "none" }}
+                      sx={{ display: row?.statusSesi === "belum dimulai" || row?.statusSesi === "sedang berlangsung" ? "" : "none" }}
                       onClick={() => openModalEdit(row)}
                     >
                       Edit

@@ -102,6 +102,16 @@ export const getDataSesi = async(params) => {
   }
 }
 
+export const getDataDetailSesi = async (idSesi) => {
+  try {
+    let data =  await axios.get(`${BaseUrl}/pusat-kontrol-sesi/${idSesi}`).then((res) => res.data)
+    return data?.data
+  } catch (error) {
+    console.log(error)
+    throw new Error(error.response.data?.message)
+  }
+}
+
 export const DeleteSesi = async (idSesi) => {
   try {
     let data =  await axios.delete(`${BaseUrl}/pusat-kontrol-sesi/${idSesi}`).then((res) => res.data)
