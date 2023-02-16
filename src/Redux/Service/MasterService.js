@@ -196,7 +196,7 @@ export const DeleteKandidat = async (param,body) => {
 
 export const SelesaiSesi = async (body) => {
   try {
-    let data =  await axios.post(`${BaseUrl}/pusat-kontrol-sesi`, body).then((res) => res.data)
+    let data =  await axios.get(`${BaseUrl}/pusat-kontrol-sesi/update-status-sesi/${body.idSesi}`).then((res) => res.data)
     return data?.data
   } catch (error) {
     console.log(error)
