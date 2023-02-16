@@ -21,7 +21,7 @@ import ReactSelect from "react-select";
 import { toast } from "react-toastify";
 import { useQuery } from "@tanstack/react-query";
 import ModalNewKandidat from "./ModalNewKandidat";
-import { getDataDetailSesi } from "../../Redux/Service/MasterService";
+import { getDataDetailSesiKandidat } from "../../Redux/Service/MasterService";
 
 const ModalViewNilai = ({
   show,
@@ -37,9 +37,9 @@ const ModalViewNilai = ({
   const [modalEdit, setModalEdit] = useState(false);
   const [modalDelete, setModalDelete] = useState(false);
   const { data, isLoading, refetch } = useQuery(
-    ["KandidatDetail"],
+    ["KandidatDetailSesi"],
     () => {
-      return getDataDetailSesi
+      return getDataDetailSesiKandidat(obj?.id)
     },
     { refetchIntervalInBackground: false, retry: false }
   );
@@ -69,7 +69,7 @@ const ModalViewNilai = ({
         >
           <ModalClose />
           <Typography id="layout-modal-title" component="h2">
-            Penilaian Terhadap Nama oleh Senior Programmer
+            Penilaian Terhadap {data?.namaKandidat} oleh {data?.namaSeniorProgrammer}
           </Typography>
 
 
@@ -91,17 +91,17 @@ const ModalViewNilai = ({
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    {data?.daftarKandidatSesi?.map((row) => (
+                    {data?.daftarNilaiKandidat?.map((row) => (
                       <TableRow
                         key={row.name}
                         sx={{
                           "&:last-child td, &:last-child th": { border: 0 }
                         }}
                       >
-                        <TableCell align="left">{row?.nama}</TableCell>
-                        <TableCell align="left">{row?.rataRataNilaiIdeal}</TableCell>
-                        <TableCell align="left">{row?.totalNilaiNormal}</TableCell>
-                        <TableCell align="left">{row?.rank}</TableCell>
+                        <TableCell align="left">{row?.kriteria}</TableCell>
+                        <TableCell align="left">{row?.intensitas}</TableCell>
+                        <TableCell align="left">{row?.nilaiIdeal}</TableCell>
+                        <TableCell align="left">{row?.nilaiNormal}</TableCell>
                       </TableRow>
                     ))}
                   </TableBody>
@@ -113,13 +113,13 @@ const ModalViewNilai = ({
                 <Typography>Rata-Rata Nilai Ideal</Typography>
               </Grid>
               <Grid item xs={3}>
-                <Typography>12</Typography>
+                <Typography>{data?.rataRataNilaiIdeal}</Typography>
               </Grid>
               <Grid item xs={6}>
                 <Typography>Total Nilai Nilai Normal</Typography>
               </Grid>
               <Grid item xs={3}>
-                <Typography></Typography>
+                <Typography>{data?.totalNilaiNormal}</Typography>
               </Grid>
 
             </Grid>

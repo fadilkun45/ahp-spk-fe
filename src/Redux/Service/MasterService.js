@@ -223,3 +223,13 @@ export const postPenilaian = async (body,params) => {
     throw new Error(error.response.data?.message)
   }
 }
+
+export const getDataDetailSesiKandidat = async (idKandidat) => {
+  try {
+    let data =  await axios.get(`${BaseUrl}/pusat-kontrol-sesi/nilai-kandidat/${idKandidat}`).then((res) => res.data)
+    return data?.data
+  } catch (error) {
+    console.log(error)
+    throw new Error(error.response.data?.message)
+  }
+}
