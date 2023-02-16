@@ -81,7 +81,6 @@ const ModalEdit = ({
     "Action"
   ];
 
-
   const openModalNew = (row) => {
     setDetailData(row);
     setModalNew(true);
@@ -254,7 +253,12 @@ const ModalEdit = ({
             <Button variant="contained" onClick={closeModal} color="primary">
               Tutup
             </Button>
-            <Button variant="contained" onClick={() => submit(obj)} color="success">
+            <Button 
+              variant="contained" 
+              onClick={() => submit(obj)} 
+              color="success"
+              disabled={obj?.bolehDiselesaikan === false}
+            >
               Selesai Sesi
             </Button>
           </Stack>
