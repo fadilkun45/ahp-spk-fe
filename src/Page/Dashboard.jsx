@@ -6,7 +6,7 @@ const Dashboard = () => {
     <Grid container>
         <Grid item>
             <Typography h4>
-                    Welcome To Dashboard
+                    Selamat Datang di Halaman Dashboard Sistem Pendukung Keputusan Rekrutmen Programmer
             </Typography>
         </Grid>
     </Grid>

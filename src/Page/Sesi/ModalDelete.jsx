@@ -25,7 +25,7 @@ const ModalDelete = ({ show, closeModal, obj, submit }) => {
             Hapus Kandidat
         </Typography>
         <Typography id="layout-modal-description" component="h2">
-            Anda Yakin Ingin Menghapus Kandidat ?
+            Anda Yakin Ingin Menghapus Sesi ?
         </Typography>
 
     
