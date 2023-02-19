@@ -22,7 +22,7 @@ const ModalDelete = ({ show, closeModal, obj, submit }) => {
       >
         <ModalClose />
         <Typography id="layout-modal-title" component="h2">
-            Hapus Kandidat
+            Hapus Sesi
         </Typography>
         <Typography id="layout-modal-description" component="h2">
             Anda Yakin Ingin Menghapus Sesi ?
