@@ -38,7 +38,7 @@ const ModalChangePassword = ({ show, closeModal, obj, submit }) => {
           Batal
         </Button>
         <Button variant="contained" disabled={!password ? true : false} onClick={() => submit(password)} color="primary">
-          Simpan
+          masuk
         </Button>
       </Stack>
     </ModalDialog>
