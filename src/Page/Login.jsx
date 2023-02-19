@@ -71,7 +71,7 @@ const Login = ({setLoading}) => {
                     <TextField id="standard-basic" onChange={(v) => setForm({ ...form, email: v.target.value })} label="Email" variant="standard" />
                     <TextField id="standard-basic" onChange={(v) => setForm({ ...form, kataSandi: v.target.value })} type="password" label="Password" variant="standard" />
                     <Button variant="contained" onClick={onSubmit} color="primary">
-                        Simpan
+                        Masuk
                     </Button>
                     </Stack>
                 </Stack>
