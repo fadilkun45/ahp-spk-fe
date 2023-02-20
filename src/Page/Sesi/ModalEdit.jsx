@@ -14,7 +14,7 @@ import {
   TextField,
 } from "@mui/material";
 import { useState, useEffect } from "react";
-import ModalDelete from "./ModalDelete";
+import ModalDelete from "./ModalDeleteKandidat";
 // import ModalNewIntesitas from "./ModalNewIntesitas";
 import ReactSelect from "react-select";
 import { toast } from "react-toastify";
@@ -91,9 +91,9 @@ const ModalEdit = ({
     setModalDelete(true);
   };
 
-  const handleHapusKriteria = (row) => {
+  const handleHapusKandidat = (row) => {
     setIsloading(true);
-    DeleteKandidat(row.idKriteria)
+    DeleteKandidat(row.id)
       .then((res) => {
         refetch();
         setModalDelete(false);
@@ -165,7 +165,7 @@ const ModalEdit = ({
           show={modalDelete}
           closeModal={() => setModalDelete(false)}
           obj={DetailData}
-          submit={handleHapusKriteria}
+          submit={handleHapusKandidat}
         />
       )}
 
