@@ -49,6 +49,10 @@ const MenuItem = () =>  {
       name: 'Halaman Utama',
       link: '/dashboard'
     },
+    {
+      name: 'Daftar Sesi Rekrutmen',
+      link: '/daftar-sesi-rekrutmen'
+    },
   ]
 
   return (

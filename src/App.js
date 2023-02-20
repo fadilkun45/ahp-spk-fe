@@ -9,6 +9,7 @@ import Kriteria from './Page/Kriteria/Kriteria';
 import Login from './Page/Login';
 import { useState } from 'react';
 import Sesi from './Page/Sesi/Sesi';
+import SesiCeo from './Page/SesiCeo/Sesi';
 
 function App() {
   const [isloading, setIsloading] = useState(false)
@@ -27,6 +28,7 @@ function App() {
         <Route path="/pusat-kontrol-akun" element={<PrivateRoute><PusatKontrolAkun setLoading={setIsloading} /></PrivateRoute>} />
         <Route path="/pusat-kontrol-ahp" element={<PrivateRoute><Kriteria setLoading={setIsloading} /></PrivateRoute>} />
         <Route path="/sesi-seleksi-programmer" element={<PrivateRoute><Sesi setLoading={setIsloading} /></PrivateRoute>} />
+        <Route path="/daftar-sesi-rekrutmen" element={<PrivateRoute><SesiCeo setLoading={setIsloading} /></PrivateRoute>} />
       </Routes>
 
     </BrowserRouter>
