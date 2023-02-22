@@ -37,7 +37,7 @@ const ModalViewNilai = ({
   const [modalEdit, setModalEdit] = useState(false);
   const [modalDelete, setModalDelete] = useState(false);
   const { data, isLoading, refetch } = useQuery(
-    ["KandidatDetailSesi"],
+    ["KandidatDetailSesi",obj?.id],
     () => {
       return getDataDetailSesiKandidat(obj?.id)
     },
@@ -50,6 +50,18 @@ const ModalViewNilai = ({
     "Nilai Ideal",
     "Nilai Normal",
   ];
+
+
+  
+  useEffect(() => {
+
+    if (isLoading ) {
+      setIsloading(true)
+    } else {
+      setIsloading(false)
+    }
+
+  }, [isLoading])
 
 
 

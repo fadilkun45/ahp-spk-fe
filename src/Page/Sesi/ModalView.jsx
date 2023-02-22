@@ -69,7 +69,7 @@ const ModalView = ({
 
   return (
     <>
-      {modalView &&  <ModalViewNilai show={modalView} obj={DetailData} closeModal={() => setModalView(false)} />}
+      {modalView &&  <ModalViewNilai setIsloading={setIsloading} show={modalView} obj={DetailData} closeModal={() => setModalView(false)} />}
 
       <Modal
         aria-labelledby="modal-title"

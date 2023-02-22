@@ -51,6 +51,15 @@ const ModalViewNilai = ({
     "Nilai Normal",
   ];
 
+  useEffect(() => {
+
+    if (isLoading ) {
+      setIsloading(true)
+    } else {
+      setIsloading(false)
+    }
+
+  }, [isLoading])
 
 
   return (
