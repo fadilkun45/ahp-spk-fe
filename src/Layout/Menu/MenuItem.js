@@ -55,6 +55,8 @@ const MenuItem = () =>  {
     },
   ]
 
+  console.log(window)
+
   return (
     <div>
         <Grid container 
@@ -71,10 +73,13 @@ const MenuItem = () =>  {
       <Divider />
       <List>
         {
+          
+          
+
           users.jabatan === 'Human Resource'?
             MenuHumanResource.map((item) => (
-                <ListItem key={item.name} disablePadding>
-                  <ListItemButton onClick={() => navigate(item.link)}>
+                <ListItem  key={item.name} disablePadding>
+                  <ListItemButton selected={item.link === window.location.pathname}  onClick={() => navigate(item.link)}>
                   <ListItemIcon>
                     <DashboardIcon />
                   </ListItemIcon>
@@ -85,7 +90,7 @@ const MenuItem = () =>  {
                 : users.jabatan === 'Chief Executive Officer'? 
                   MenuChiefExecutiveOfficer.map((item) => (
                     <ListItem key={item.name} disablePadding>
-                      <ListItemButton onClick={() => navigate(item.link)}>
+                      <ListItemButton selected={item.link === window.location.pathname} onClick={() => navigate(item.link)}>
                       <ListItemIcon>
                         <DashboardIcon />
                       </ListItemIcon>
@@ -96,7 +101,7 @@ const MenuItem = () =>  {
                     : 
                     MenuSeniorProgrammer.map((item) => (
                       <ListItem key={item.name} disablePadding>
-                        <ListItemButton onClick={() => navigate(item.link)}>
+                        <ListItemButton selected={item.link === window.location.pathname} onClick={() => navigate(item.link)}>
                         <ListItemIcon>
                           <DashboardIcon />
                         </ListItemIcon>

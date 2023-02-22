@@ -28,7 +28,6 @@ const PrivateRoute = ({ window, children }) => {
         return <Navigate to="/login" />
     }
 
-
     return (
         <>
             {loading && <LoadingScreen />}
