@@ -125,7 +125,7 @@ const ModalViewNilai = ({
                 <Typography>{data?.rataRataNilaiIdeal}</Typography>
               </Grid>
               <Grid item xs={6}>
-                <Typography>Total Nilai Nilai Normal</Typography>
+                <Typography>Total Nilai Normal</Typography>
               </Grid>
               <Grid item xs={3}>
                 <Typography>{}</Typography>
