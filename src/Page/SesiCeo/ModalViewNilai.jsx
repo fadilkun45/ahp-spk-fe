@@ -131,6 +131,9 @@ const ModalViewNilai = ({
                 <Typography>Total Nilai Nilai Normal</Typography>
               </Grid>
               <Grid item xs={3}>
+                <Typography>{}</Typography>
+              </Grid>
+              <Grid item xs={3}>
                 <Typography>{data?.totalNilaiNormal}</Typography>
               </Grid>
 
