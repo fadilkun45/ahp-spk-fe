@@ -87,13 +87,13 @@ const ModalView = ({
             History Sesi
           </Typography>
 
-          <Button
+          {/* <Button
             sx={{ marginBottom: "20px" }}
             variant="contained"
           // onClick={() => ()}
           >
             Unduh Laporan
-          </Button>
+          </Button> */}
 
           <Stack sx={{ overflowY: "auto", height: "60vh" }}>
 
