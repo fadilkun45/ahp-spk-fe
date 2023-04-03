@@ -73,7 +73,6 @@ const ModalEditIntesitas = ({
   const cels = [
     "Nama",
     "Bobot Prioritas",
-    "Nilai Ideal",
     "Nilai Normal",
     "Action",
   ];
@@ -205,7 +204,6 @@ const ModalEditIntesitas = ({
                       >
                         <TableCell align="left">{row?.namaKriteria}</TableCell>
                         <TableCell align="left">{row?.bobot}</TableCell>
-                        <TableCell align="left">{row?.nilaiIdeal}</TableCell>
                         <TableCell align="left">{row?.nilaiNormal}</TableCell>
                         <TableCell align="left">
                           <Button

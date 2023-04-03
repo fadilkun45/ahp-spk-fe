@@ -52,7 +52,6 @@ const ModalView = ({
 
   const cels = [
     "Nama Kandidat",
-    "Rata-Rata Nilai Ideal",
     "Total Nilai Normal",
     "Ranking",
     "Pemberi Nilai",
@@ -120,7 +119,6 @@ const ModalView = ({
                         }}
                       >
                         <TableCell align="left">{row?.nama}</TableCell>
-                        <TableCell align="left">{row?.rataRataNilaiIdeal}</TableCell>
                         <TableCell align="left">{row?.totalNilaiNormal}</TableCell>
                         <TableCell align="left">{row?.rank}</TableCell>
                         <TableCell align="left">{row?.namaSeniorProgrammerPenilai}</TableCell>

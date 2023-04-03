@@ -47,7 +47,6 @@ const ModalViewNilai = ({
   const cels = [
     "Pertanyaan",
     "Penilaian",
-    "Nilai Ideal",
     "Nilai Normal",
   ];
 
@@ -112,7 +111,6 @@ const ModalViewNilai = ({
                       >
                         <TableCell align="left">{row?.kriteria}</TableCell>
                         <TableCell align="left">{row?.intensitas}</TableCell>
-                        <TableCell align="left">{row?.nilaiIdeal}</TableCell>
                         <TableCell align="left">{row?.nilaiNormal}</TableCell>
                       </TableRow>
                     ))}
@@ -121,12 +119,6 @@ const ModalViewNilai = ({
               </TableContainer>
             </Stack>
             <Grid container rowSpacing={1}>
-              <Grid item xs={6}>
-                <Typography>Rata-Rata Nilai Ideal</Typography>
-              </Grid>
-              <Grid item xs={3}>
-                <Typography>{data?.rataRataNilaiIdeal}</Typography>
-              </Grid>
               <Grid item xs={6}>
                 <Typography>Total Nilai Normal</Typography>
               </Grid>
