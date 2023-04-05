@@ -229,14 +229,14 @@ const ModalEdit = ({
                           >
                             Hapus
                           </Button>
-                          <Button
+                          {/* <Button
                             variant="contained"
                             color="success"
                             sx={{ marginRight: "8px" }}
                             onClick={() => openModalDetail(row)}
                           >
                             View
-                          </Button>
+                          </Button> */}
                         </TableCell>
                       </TableRow>
                     ))}
